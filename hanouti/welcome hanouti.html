@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hanouti - Accueil</title>
+    <style>
+        :root {
+            -primary-color: #ca9a9e;
+            --secondary-color: #D2B48C;
+            --accent-color: #F4A460;
+            --light-color: #FFF8E1;
+            --dark-color: #5D4037;
+            --white: #FFFFFF;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --error-color: #e74c3c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            background-image: linear-gradient(135deg, var(--light-color) 0%, var(--primary-color) 100%);
+            background-attachment: fixed;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .logo-container {
+            margin-bottom: 40px;
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .logo {
+            width: 280px;
+            height: auto;
+            margin-bottom: 20px;
+            object-fit: contain;
+            border-radius: 50%;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .title {
+            color: var(--dark-color);
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .subtitle {
+            color: var(--dark-color);
+            opacity: 0.9;
+            font-size: 1.3rem;
+            margin-bottom: 50px;
+            font-weight: 400;
+        }
+
+        .role-selection {
+            display: flex;
+            gap: 40px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        .role-btn {
+            background-color: var(--white);
+            border: none;
+            border-radius: 20px;
+            padding: 40px 30px;
+            width: 280px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .role-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--accent-color);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .role-btn:hover::before {
+            transform: scaleX(1);
+        }
+
+        .role-btn:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .role-btn.buyer:hover {
+            background-color: rgba(202, 154, 158, 0.2);
+        }
+
+        .role-btn.seller:hover {
+            background-color: rgba(210, 180, 140, 0.2);
+        }
+
+        .role-icon {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .role-btn:hover .role-icon {
+            transform: scale(1.1);
+        }
+
+        .role-name {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--dark-color);
+            margin-bottom: 15px;
+        }
+
+        .role-desc {
+            color: var(--dark-color);
+            opacity: 0.8;
+            text-align: center;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        footer {
+            margin-top: 60px;
+            color: var(--dark-color);
+            opacity: 0.7;
+            font-size: 1rem;
+            text-align: center;
+            padding: 20px;
+            width: 100%;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .role-selection {
+                gap: 20px;
+            }
+
+            .role-btn {
+                width: 100%;
+                max-width: 300px;
+                padding: 30px 20px;
+            }
+
+            .title {
+                font-size: 2.2rem;
+            }
+
+            .subtitle {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="logo-container">
+            <!-- Utilisez un chemin relatif pour une meilleure pratique -->
+            <img src="C:\Users\HP\OneDrive\Images\lll.PNG" alt="Hanouti Logo" class="logo">
+            <h1 class="title">Bienvenue à Hanouti</h1>
+
+        </div>
+
+        <div class="role-selection">
+            <button class="role-btn buyer" onclick="redirectToLogin('buyer')">
+                <span class="role-icon">👤</span>
+                <span class="role-name">Je suis acheteur</span>
+                <span class="role-desc">Découvrez et achetez des produits artisanaux locaux de qualité</span>
+            </button>
+
+            <button class="role-btn seller" onclick="redirectToLogin('seller')">
+                <span class="role-icon">🧺</span>
+                <span class="role-name">Je suis vendeur</span>
+                <span class="role-desc">Vendez vos produits en toute simplicité à une communauté engagée</span>
+            </button>
+        </div>
+
+        <footer>
+            © 2025 Hanouti. Tous droits réservés. | <a href="#"
+                style="color: var(--dark-color); text-decoration: none;">Mentions légales</a>
+        </footer>
+    </div>
+
+    <script>
+        function redirectToLogin(role) {
+            // Redirection vers les pages correspondantes
+            if (role === 'buyer') {
+                window.location.href = 'acheteur.html';
+            } else if (role === 'seller') {
+                window.location.href = 'vendeur.html';
+            }
+        }
+    </script>
+</body>
+
+</html>

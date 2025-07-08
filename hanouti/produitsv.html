@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hanouti - Produits</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #ca9a9e;
+            --secondary-color: #D2B48C;
+            --accent-color: #F4A460;
+            --light-color: #FFF8E1;
+            --dark-color: #5D4037;
+            --white: #FFFFFF;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            background-color: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar-logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 2rem;
+            position: relative;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .nav-links i {
+            margin-right: 0.5rem;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--accent-color);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+        }
+
+        /* Contenu principal */
+        .container {
+            padding: 2rem 5%;
+        }
+
+        /* En-tête du hanout */
+        .hanout-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            background-color: var(--white);
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        .hanout-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 10px;
+            object-fit: cover;
+            margin-right: 1.5rem;
+        }
+
+        .hanout-info h1 {
+            margin-bottom: 0.5rem;
+        }
+
+        .hanout-rating {
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            background-color: var(--light-color);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            text-decoration: none;
+            color: var(--dark-color);
+            margin-top: 1rem;
+        }
+
+        .back-btn i {
+            margin-right: 0.5rem;
+        }
+
+        /* Filtres produits */
+        .product-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            background-color: var(--white);
+            border: 1px solid var(--secondary-color);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-btn.active,
+        .filter-btn:hover {
+            background-color: var(--secondary-color);
+            color: var(--white);
+        }
+
+        /* Liste produits */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .product-card {
+            background-color: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-image {
+            height: 180px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .product-info {
+            padding: 1rem;
+        }
+
+        .product-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-description {
+            color: var(--dark-color);
+            opacity: 0.8;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            height: 40px;
+            overflow: hidden;
+        }
+
+        .product-rating {
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .product-price {
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .product-actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+        }
+
+        .quantity-btn {
+            width: 30px;
+            height: 30px;
+            background-color: var(--light-color);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .quantity-input {
+            width: 40px;
+            text-align: center;
+            margin: 0 0.5rem;
+        }
+
+        .add-to-cart {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .add-to-cart:hover {
+            background-color: #b8868b;
+        }
+
+        /* Mini panier flottant */
+        .mini-cart {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: var(--white);
+            padding: 1rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            z-index: 90;
+        }
+
+        .mini-cart i {
+            font-size: 1.5rem;
+            margin-right: 0.5rem;
+            color: var(--accent-color);
+        }
+
+        .span {
+            font-size: 20px;
+            font-weight: 500;
+            font-style: italic;
+            color: #5D4037;
+            background: #FFF8E1;
+
+
+
+            display: flex;
+            list-style: none;
+            margin-left: 0.5rem;
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            transition: color 0.3s;
+            margin-right: 0.5rem;
+
+        }
+
+        .mini-cart-count {
+            font-weight: 600;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hanout-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hanout-image {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-logo">
+            <img src="C:\Users\HP\OneDrive\Images\lll.PNG" alt="Hanouti Logo">
+            <span class="span">Hanouti</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="acceuila.html"><i class="fas fa-home"></i> Accueil</a></li>
+            <li><a href="produitsv.html"><i class="fas fa-store"></i> Produits</a></li>
+            <li>
+                <a href="panniera.html"><i class="fas fa-shopping-basket"></i> Panier</a>
+                <span class="cart-count">3</span>
+            </li>
+            <li><a href="contacta.html"><i class="fas fa-user"></i> Contact</a></li>
+        </ul>
+
+    </nav>
+
+    <div class="container">
+        <!-- En-tête du hanout -->
+        <div class="hanout-header">
+            <img src="https://images.unsplash.com/photo-1606787366850-de6330128bfc?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
+                alt="Épicerie du Soleil" class="hanout-image">
+            <div class="hanout-info">
+                <h1>Épicerie du Soleil</h1>
+                <div class="hanout-rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                    <span>(24 avis)</span>
+                </div>
+                <p>12 Rue des Marchands, Quartier Centre</p>
+                <a href="acceuila.html" class="back-btn">
+                    <i class="fas fa-arrow-left"></i> Retour à l'accueil
+                </a>
+            </div>
+        </div>
+
+        <!-- Filtres produits -->
+        <div class="product-filters">
+            <button class="filter-btn active">Tous les produits</button>
+            <button class="filter-btn">Fruits</button>
+            <button class="filter-btn">Légumes</button>
+            <button class="filter-btn">Épicerie</button>
+            <button class="filter-btn">Boissons</button>
+        </div>
+
+        <!-- Liste des produits -->
+        <div class="products-grid">
+            <!-- Produit 1 -->
+            <div class="product-card">
+                <div class="product-image"
+                    style="background-image: url('https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80');">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Pommes Golden</h3>
+                    <p class="product-description">Pommes fraîches et juteuses, cultivées localement</p>
+                    <div class="product-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                    </div>
+                    <p class="product-price">12 DH/kg</p>
+                    <div class="product-actions">
+                        <div class="quantity-selector">
+                            <button class="quantity-btn">-</button>
+                            <input type="number" value="1" min="1" class="quantity-input">
+                            <button class="quantity-btn">+</button>
+                        </div>
+                        <button class="add-to-cart">Ajouter</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Produit 2 -->
+            <div class="product-card">
+                <div class="product-image"
+                    style="background-image: url('https://www.freshplaza.fr/remote/https/agfstorage.blob.core.windows.net/misc/FP_com/2024/12/02/Tom2.jpg?preset=ContentFullSmall');">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Tomates locales</h3>
+                    <p class="product-description">Tomates rouges et savoureuses, récoltées quotidiennement</p>
+                    <div class="product-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <p class="product-price">8 DH/kg</p>
+                    <div class="product-actions">
+                        <div class="quantity-selector">
+                            <button class="quantity-btn">-</button>
+                            <input type="number" value="1" min="1" class="quantity-input">
+                            <button class="quantity-btn">+</button>
+                        </div>
+                        <button class="add-to-cart">Ajouter</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Produit 3 -->
+            <div class="product-card">
+                <div class="product-image"
+                    style="background-image: url('https://www.hsbmaroc.com/content/uploads/2020/03/HSB_Catalogue_Oued-Souss_Huile-olive_2.jpg');">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Huile d'olive</h3>
+                    <p class="product-description">Huile d'olive vierge extra, pression à froid</p>
+                    <div class="product-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="product-price">45 DH/L</p>
+                    <div class="product-actions">
+                        <div class="quantity-selector">
+                            <button class="quantity-btn">-</button>
+                            <input type="number" value="1" min="1" class="quantity-input">
+                            <button class="quantity-btn">+</button>
+                        </div>
+                        <button class="add-to-cart">Ajouter</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Produit 4 -->
+            <div class="product-card">
+                <div class="product-image"
+                    style="background-image: url('https://api.allonaya.ma/assets/files/Media/SvFMYnnYJKFMqhLhN/image/gjjhvghv.jpg');">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Fromage blanc</h3>
+                    <p class="product-description">Fromage frais crémeux, fait maison</p>
+                    <div class="product-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                    </div>
+                    <p class="product-price">6 DH/pièce</p>
+                    <div class="product-actions">
+                        <div class="quantity-selector">
+                            <button class="quantity-btn">-</button>
+                            <input type="number" value="1" min="1" class="quantity-input">
+                            <button class="quantity-btn">+</button>
+                        </div>
+                        <button class="add-to-cart">Ajouter</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Produit 5 -->
+            <div class="product-card">
+                <div class="product-image"
+                    style="background-image: url('https://alghandourmarket.ma/wp-content/uploads/2025/01/1000693293.jpg');">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Miel naturel</h3>
+                    <p class="product-description">Miel pur de montagne, non pasteurisé</p>
+                    <div class="product-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <p class="product-price">60 DH/500g</p>
+                    <div class="product-actions">
+                        <div class="quantity-selector">
+                            <button class="quantity-btn">-</button>
+                            <input type="number" value="1" min="1" class="quantity-input">
+                            <button class="quantity-btn">+</button>
+                        </div>
+                        <button class="add-to-cart">Ajouter</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Produit 6 -->
+            <div class="product-card">
+                <div class="product-image"
+                    style="background-image: url('https://images.unsplash.com/photo-1603569283847-aa295f0d016a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80');">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Amandes</h3>
+                    <p class="product-description">Amandes crues biologiques, riches en protéines</p>
+                    <div class="product-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                    </div>
+                    <p class="product-price">90 DH/kg</p>
+                    <div class="product-actions">
+                        <div class="quantity-selector">
+                            <button class="quantity-btn">-</button>
+                            <input type="number" value="1" min="1" class="quantity-input">
+                            <button class="quantity-btn">+</button>
+                        </div>
+                        <button class="add-to-cart">Ajouter</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mini panier -->
+    <div class="mini-cart">
+        <i class="fas fa-shopping-basket"></i>
+        <span class="mini-cart-count">3 articles</span>
+    </div>
+
+    <script>
+        // Gestion des quantités
+        document.querySelectorAll('.quantity-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const input = this.parentElement.querySelector('.quantity-input');
+                let value = parseInt(input.value);
+
+                if (this.textContent === '+' && value < 99) {
+                    input.value = value + 1;
+                } else if (this.textContent === '-' && value > 1) {
+                    input.value = value - 1;
+                }
+            });
+        });
+
+        // Ajout au panier
+        document.querySelectorAll('.add-to-cart').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const productCard = this.closest('.product-card');
+                const productName = productCard.querySelector('.product-name').textContent;
+                const quantity = productCard.querySelector('.quantity-input').value;
+
+                // Mettre à jour le compteur du panier
+                const cartCount = document.querySelector('.cart-count');
+                const currentCount = parseInt(cartCount.textContent);
+                cartCount.textContent = currentCount + parseInt(quantity);
+
+                // Mettre à jour le mini panier
+                const miniCartCount = document.querySelector('.mini-cart-count');
+                miniCartCount.textContent = cartCount.textContent + ' articles';
+
+                alert(`${quantity} ${productName} ajouté(s) au panier`);
+            });
+        });
+
+        // Filtrage des produits
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                document.querySelector('.filter-btn.active').classList.remove('active');
+                this.classList.add('active');
+                // Ici vous filtreriez les produits en fonction de la catégorie
+            });
+        });
+    </script>
+</body>
+
+</html>

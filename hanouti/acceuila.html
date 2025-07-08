@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hanouti - Marchés Locaux</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #ca9a9e;
+            --secondary-color: #D2B48C;
+            --accent-color: #F4A460;
+            --light-color: #FFF8E1;
+            --dark-color: #5D4037;
+            --white: #FFFFFF;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            background-color: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar-logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-logo img {
+            height: 40px;
+            margin-right: 20px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .nav-links i {
+            margin-right: 0.5rem;
+        }
+
+        /* Contenu principal */
+        .container {
+            padding: 2rem 5%;
+        }
+
+        /* Section recherche et filtres */
+        .search-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .search-bar {
+            flex: 2;
+            min-width: 300px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid var(--secondary-color);
+            border-radius: 25px;
+            font-size: 1rem;
+        }
+
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            flex: 3;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            background-color: var(--white);
+            border: 1px solid var(--secondary-color);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-btn.active,
+        .filter-btn:hover {
+            background-color: var(--secondary-color);
+            color: var(--white);
+        }
+
+        /* Section hanouts */
+        .hanouts-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .hanouts-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .hanout-card {
+            background-color: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+        }
+
+        .hanout-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .hanout-image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hanout-info {
+            padding: 1rem;
+        }
+
+        .hanout-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .hanout-address {
+            color: var(--dark-color);
+            opacity: 0.8;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .hanout-category {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            background-color: var(--light-color);
+            border-radius: 10px;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .hanout-promo {
+            color: var(--accent-color);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .view-products {
+            display: block;
+            text-align: center;
+            padding: 0.5rem;
+            background-color: var(--primary-color);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 0.5rem;
+            transition: background-color 0.3s;
+        }
+
+        .view-products:hover {
+            background-color: #b8868b;
+        }
+
+        /* Section promos */
+        .promos-section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            padding-left: 1rem;
+        }
+
+        .section-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 5px;
+            background-color: var(--accent-color);
+        }
+
+        .promos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .promo-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 1rem;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+        }
+
+        .promo-image {
+            width: 80px;
+            height: 80px;
+            background-color: var(--secondary-color);
+            border-radius: 10px;
+            margin-right: 1rem;
+            background-size: cover;
+        }
+
+        .promo-info h4 {
+            margin-bottom: 0.3rem;
+        }
+
+        .promo-price {
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        /* Section comment ça marche */
+        .how-it-works {
+            background-color: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .steps {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+        }
+
+        .step {
+            flex: 1;
+            min-width: 150px;
+            text-align: center;
+            padding: 0 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .span {
+            font-size: 20px;
+            font-weight: 500;
+            font-style: italic;
+            color: #5D4037;
+            background: #FFF8E1;
+
+
+
+            display: flex;
+            list-style: none;
+            margin-left: 0.5rem;
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            transition: color 0.3s;
+            margin-right: 0.5rem;
+
+        }
+
+        .step-icon {
+            background-color: var(--light-color);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            color: var(--accent-color);
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar avec logo à gauche -->
+    <nav class="navbar">
+        <div class="navbar-logo">
+            <img src="C:\Users\HP\OneDrive\Images\lll.PNG" alt="Hanouti Logo">
+            <span class="span">Hanouti</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="acceuila.html"><i class="fas fa-home"></i> Accueil</a></li>
+            <li><a href="produitsv.html"><i class="fas fa-store"></i> Produits</a></li>
+            <li><a href="panniera.html"><i class="fas fa-shopping-basket"></i> Panier</a></li>
+            <li><a href="contacta.html"><i class="fas fa-user"></i> Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <!-- Section recherche et filtres -->
+        <section class="search-section">
+            <div class="search-bar">
+                <input type="text" placeholder="Rechercher un produit ou un hanout...">
+            </div>
+
+        </section>
+
+        <!-- Section hanouts à proximité -->
+        <section>
+            <h2 class="section-title">Hanouts près de chez vous</h2>
+            <div class="hanouts-section">
+                <!-- Hanout 1 - Épicerie -->
+                <div class="hanout-card">
+                    <div class="hanout-image"
+                        style="background-image: url('https://images.unsplash.com/photo-1606787366850-de6330128bfc?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');">
+                    </div>
+                    <div class="hanout-info">
+                        <h3 class="hanout-name">Épicerie du Soleil</h3>
+                        <span class="hanout-category">Épicerie • Fruits • Légumes</span>
+                        <p class="hanout-address">12 Rue des Marchands, Quartier Centre</p>
+                        <p class="hanout-promo">Promo: -20% sur les fruits locaux</p>
+                        <a href="produitsv.html" class="view-products">Voir les produits</a>
+                    </div>
+                </div>
+
+                <!-- Hanout 2 - Boulangerie -->
+                <div class="hanout-card">
+                    <div class="hanout-image"
+                        style="background-image: url('https://images.unsplash.com/photo-1509440159596-0249088772ff?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');">
+                    </div>
+                    <div class="hanout-info">
+                        <h3 class="hanout-name">Boulangerie Tradition</h3>
+                        <span class="hanout-category">Boulangerie • Pâtisserie</span>
+                        <p class="hanout-address">45 Avenue Farah, Quartier Résidence</p>
+                        <p class="hanout-promo">Nouveau: Pain complet bio</p>
+                        <a href="produits.html" class="view-products">Voir les produits</a>
+                    </div>
+                </div>
+
+                <!-- Hanout 3 - Marché -->
+                <div class="hanout-card">
+                    <div class="hanout-image"
+                        style="background-image: url('https://img.freepik.com/vecteurs-premium/logo-magasin-marche-vert-logo-icone-sac-provisions-vert-pour-entreprises-commerce-electronique_8580-784.jpg');">
+                    </div>
+                    <div class="hanout-info">
+                        <h3 class="hanout-name">Marché Vert</h3>
+                        <span class="hanout-category">Fruits • Légumes • Bio</span>
+                        <p class="hanout-address">Place du Marché, Quartier Palmier</p>
+                        <p class="hanout-promo">Légumes de saison à petits prix</p>
+                        <a href="produits.html" class="view-products">Voir les produits</a>
+                    </div>
+                </div>
+
+                <!-- Hanout 4 - Épices -->
+                <div class="hanout-card">
+                    <div class="hanout-image"
+                        style="background-image: url('https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');">
+                    </div>
+                    <div class="hanout-info">
+                        <h3 class="hanout-name">Épices d'Orient</h3>
+                        <span class="hanout-category">Épicerie • Épices • Thé</span>
+                        <p class="hanout-address">33 Rue des Épices, Quartier Médina</p>
+                        <a href="produits.html" class="view-products">Voir les produits</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section promos du jour -->
+        <section class="promos-section">
+            <h2 class="section-title">Promos du jour</h2>
+            <div class="promos-grid">
+                <!-- Promo 1 - Pommes -->
+                <div class="promo-card">
+                    <div class="promo-image"
+                        style="background-image: url('https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80');">
+                    </div>
+                    <div class="promo-info">
+                        <h4>Pommes Golden</h4>
+                        <p class="promo-price">12 DH/kg (-15%)</p>
+                        <small>Épicerie du Soleil</small>
+                    </div>
+                </div>
+
+                <!-- Promo 2 - Pain -->
+                <div class="promo-card">
+                    <div class="promo-image"
+                        style="background-image: url('https://images.unsplash.com/photo-1509440159596-0249088772ff?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80');">
+                    </div>
+                    <div class="promo-info">
+                        <h4>Pain complet</h4>
+                        <p class="promo-price">4 DH (-20%)</p>
+                        <small>Boulangerie Tradition</small>
+                    </div>
+                </div>
+
+                <!-- Promo 3 - Tomates -->
+                <div class="promo-card">
+                    <div class="promo-image"
+                        style="background-image: url('https://www.freshplaza.fr/remote/https/agfstorage.blob.core.windows.net/misc/FP_com/2024/12/02/Tom2.jpg?preset=ContentFullSmall');">
+                    </div>
+                    <div class="promo-info">
+                        <h4>Tomates locales</h4>
+                        <p class="promo-price">8 DH/kg (-10%)</p>
+                        <small>Marché Vert</small>
+                    </div>
+                </div>
+
+                <!-- Promo 4 - Cumin -->
+                <div class="promo-card">
+                    <div class="promo-image"
+                        style="background-image: url('https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80');">
+                    </div>
+                    <div class="promo-info">
+                        <h4>Cumin en poudre</h4>
+                        <p class="promo-price">25 DH/100g (-5%)</p>
+                        <small>Épices d'Orient</small>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section comment ça marche -->
+        <section class="how-it-works">
+            <h2 class="section-title">Comment ça marche ?</h2>
+            <p>Découvrez les produits locaux près de chez vous en quelques clics seulement.</p>
+
+            <div class="steps">
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h3>1. Trouvez</h3>
+                    <p>Localisez les hanouts près de chez vous</p>
+                </div>
+
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-shopping-basket"></i>
+                    </div>
+                    <h3>2. Choisissez</h3>
+                    <p>Sélectionnez vos produits préférés</p>
+                </div>
+
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <h3>3. Payez</h3>
+                    <p>Paiement sécurisé en ligne</p>
+                </div>
+
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h3>4. Recevez</h3>
+                    <p>Livraison ou retrait au hanout</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Filtrage des hanouts
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                document.querySelector('.filter-btn.active').classList.remove('active');
+                this.classList.add('active');
+                // Ici vous filtreriez les hanouts en fonction de la catégorie
+            });
+        });
+    </script>
+</body>
+
+</html>

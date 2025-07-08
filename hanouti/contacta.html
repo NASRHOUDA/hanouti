@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hanouti - Contact</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #ca9a9e;
+            --secondary-color: #D2B48C;
+            --accent-color: #F4A460;
+            --light-color: #FFF8E1;
+            --dark-color: #5D4037;
+            --white: #FFFFFF;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            background-color: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar-logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-logo img {
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 2rem;
+            position: relative;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .nav-links i {
+            margin-right: 0.5rem;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--accent-color);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+        }
+
+        /* Contenu principal */
+        .container {
+            padding: 2rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--dark-color);
+            position: relative;
+            padding-left: 1rem;
+        }
+
+        .page-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 5px;
+            background-color: var(--accent-color);
+        }
+
+        /* Section contact */
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .contact-info {
+            background-color: var(--white);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            height: fit-content;
+        }
+
+        .contact-info h2 {
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .contact-method {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-icon {
+            background-color: var(--light-color);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            color: var(--accent-color);
+            font-size: 1.2rem;
+        }
+
+        .contact-text h3 {
+            margin-bottom: 0.3rem;
+        }
+
+        .contact-text p {
+            color: var(--dark-color);
+            opacity: 0.8;
+        }
+
+        .contact-map {
+            height: 300px;
+            background-color: #ddd;
+            border-radius: 15px;
+            margin-top: 1.5rem;
+            overflow: hidden;
+        }
+
+        /* Formulaire de contact */
+        .contact-form {
+            background-color: var(--white);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .contact-form h2 {
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: var(--accent-color);
+            outline: none;
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .submit-btn:hover {
+            background-color: #b8868b;
+        }
+
+        /* FAQ */
+        .faq-section {
+            margin-top: 3rem;
+            background-color: var(--white);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .faq-section h2 {
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .faq-item {
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 1rem;
+        }
+
+        .faq-question {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-answer {
+            color: var(--dark-color);
+            opacity: 0.8;
+            display: none;
+        }
+
+        .span {
+            font-size: 20px;
+            font-weight: 500;
+            font-style: italic;
+            color: #5D4037;
+            background: #FFF8E1;
+
+
+
+            display: flex;
+            list-style: none;
+            margin-left: 0.5rem;
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            transition: color 0.3s;
+            margin-right: 0.5rem;
+
+        }
+
+        .faq-answer.active {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-logo">
+            <img src="C:\Users\HP\OneDrive\Images\lll.PNG" alt="Hanouti Logo">
+            <span class="span">Hanouti</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="acceuila.html"><i class="fas fa-home"></i> Accueil</a></li>
+            <li><a href="produitsv.html"><i class="fas fa-store"></i> Produits</a></li>
+            <li>
+                <a href="panniera.html"><i class="fas fa-shopping-basket"></i> Panier</a>
+                <span class="cart-count">3</span>
+            </li>
+            <li><a href="contacta.html"><i class="fas fa-user"></i> Contact</a></li>
+        </ul>
+
+
+    </nav>
+
+    <div class="container">
+        <h1 class="page-title">Contactez-nous</h1>
+
+        <div class="contact-container">
+            <!-- Informations de contact -->
+            <div class="contact-info">
+                <h2>Nous sommes là pour vous aider</h2>
+
+                <div class="contact-method">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                    <div class="contact-text">
+                        <h3>Téléphone</h3>
+                        <p>+212 6 12 34 56 78</p>
+                        <p>Lun-Ven: 9h-18h</p>
+                    </div>
+                </div>
+
+                <div class="contact-method">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="contact-text">
+                        <h3>Email</h3>
+                        <p>contact@hanouti.com</p>
+                        <p>Réponse sous 24h</p>
+                    </div>
+                </div>
+
+                <div class="contact-method">
+                    <div class="contact-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="contact-text">
+                        <h3>Adresse</h3>
+                        <p>123 Avenue Mohammed V</p>
+                        <p>Casablanca, Maroc</p>
+                    </div>
+                </div>
+
+                <div class="contact-map">
+                    <!-- Intégration de carte Google Maps -->
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3323.349646143907!2d-7.632787684798974!3d33.59624968073259!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xda7d3731f922c01%3A0x5e46c1e1fc83142d!2sAvenue%20Mohammed%20V%2C%20Casablanca!5e0!3m2!1sen!2sma!4v1621600000000!5m2!1sen!2sma"
+                        width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+
+            <!-- Formulaire de contact -->
+            <div class="contact-form">
+                <h2>Envoyez-nous un message</h2>
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="name">Votre nom</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Votre adresse mail</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject">Sujet de réclamation</label>
+                        <select id="subject" name="subject">
+                            <option value="question">Commande non complète</option>
+                            <option value="problem">Problème technique</option>
+                            <option value="partnership">Partenariat</option>
+                            <option value="other">Autre</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Votre message</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Envoyer le message</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- FAQ -->
+        <div class="faq-section">
+            <h2>Questions fréquentes</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Comment passer une commande ?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Sélectionnez simplement les produits que vous souhaitez acheter, ajoutez-les à votre panier, puis
+                        passez à la caisse en suivant les étapes indiquées.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Quels sont les modes de paiement acceptés ?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Nous acceptons les paiements par carte bancaire, mobile money et paiement à la livraison (cash).
+                    </p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Quels sont les frais de livraison ?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Les frais de livraison varient entre 10 et 20 DH selon votre localisation et le montant de votre
+                        commande.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Comment devenir vendeur sur Hanouti ?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Rendez-vous sur notre page d'inscription pour vendeurs et remplissez le formulaire. Notre équipe
+                        vous contactera dans les 48h.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Gestion de la FAQ
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', function () {
+                const answer = this.nextElementSibling;
+                const icon = this.querySelector('i');
+
+                answer.classList.toggle('active');
+
+                if (answer.classList.contains('active')) {
+                    icon.classList.remove('fa-chevron-down');
+                    icon.classList.add('fa-chevron-up');
+                } else {
+                    icon.classList.remove('fa-chevron-up');
+                    icon.classList.add('fa-chevron-down');
+                }
+            });
+        });
+
+        // Gestion du formulaire
+        document.getElementById('contactForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            alert('Merci pour votre message ! Nous vous répondrons dans les plus brefs délais.');
+            this.reset();
+        });
+    </script>
+</body>
+
+</html>

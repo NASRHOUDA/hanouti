@@ -1,0 +1,1495 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hanouti - Commandes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #ca9a9e;
+            --secondary-color: #D2B48C;
+            --accent-color: #F4A460;
+            --light-color: #FFF8E1;
+            --dark-color: #5D4037;
+            --white: #FFFFFF;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+            --warning-color: #ffc107;
+            --info-color: #17a2b8;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+        }
+
+        /* Navbar identique */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            background-color: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar-logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-logo img {
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 2rem;
+            position: relative;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .nav-links a.active {
+            color: #F4A460;
+            font-weight: 600;
+        }
+
+        .nav-links i {
+            margin-right: 0.5rem;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--accent-color);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        .logout-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            margin-left: 1rem;
+        }
+
+        .logout-btn:hover {
+            background-color: #b8868a;
+        }
+
+        .logo-text {
+            font-size: 1.25rem;
+            font-weight: 600;
+            font-style: italic;
+            color: var(--dark-color);
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        /* Contenu principal */
+        .container {
+            padding: 2rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            color: var(--dark-color);
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .page-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 5px;
+            background-color: var(--accent-color);
+            border-radius: 3px;
+        }
+
+        /* Statistiques */
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background-color: var(--white);
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .stat-card h3 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent-color);
+        }
+
+        .stat-card p {
+            color: var(--dark-color);
+            font-weight: 500;
+        }
+
+        /* Recherche et actions */
+        .actions-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            flex: 1;
+            max-width: 400px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .search-box input:focus {
+            border-color: var(--accent-color);
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+
+        .export-btn {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .export-btn:hover {
+            background-color: #c0a070;
+        }
+
+        /* Filtres */
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            border: 1px solid #ddd;
+            background-color: white;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .filter-btn.active {
+            background-color: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+
+        .filter-btn:hover {
+            border-color: var(--accent-color);
+        }
+
+        .filter-count {
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 10px;
+            padding: 0.2rem 0.5rem;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+        }
+
+        /* Tableau des commandes */
+        .orders-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .orders-table th,
+        .orders-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .orders-table th {
+            background-color: rgba(202, 154, 158, 0.1);
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .orders-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .orders-table tr:hover {
+            background-color: rgba(210, 180, 140, 0.05);
+        }
+
+        .customer-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .customer-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--light-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .customer-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .customer-name {
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+        }
+
+        .customer-phone {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .order-items {
+            max-width: 200px;
+        }
+
+        .order-items-preview {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.2rem;
+        }
+
+        .items-count {
+            font-size: 0.8rem;
+            color: var(--accent-color);
+            font-weight: 500;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background-color: #FFF3CD;
+            color: #856404;
+        }
+
+        .status-ready {
+            background-color: #CCE5FF;
+            color: #004085;
+        }
+
+        .status-delivered {
+            background-color: #D4EDDA;
+            color: #155724;
+        }
+
+        .status-cancelled {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .priority-urgent {
+            background-color: #FFE6E6;
+            border-left: 3px solid var(--danger-color);
+        }
+
+        .urgent-badge {
+            background-color: var(--danger-color);
+            color: white;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 10px;
+            margin-left: 0.5rem;
+        }
+
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-right: 0.5rem;
+        }
+
+        .ready-btn {
+            background-color: var(--info-color);
+            color: white;
+        }
+
+        .ready-btn:hover {
+            background-color: #138496;
+        }
+
+        .view-btn {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .view-btn:hover {
+            background-color: #c0a070;
+        }
+
+        .contact-btn {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        .contact-btn:hover {
+            background-color: #218838;
+        }
+
+        /* Détails commande */
+        .order-details {
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            margin-top: 2rem;
+            position: relative;
+        }
+
+        .close-details {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #999;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .close-details:hover {
+            color: var(--danger-color);
+        }
+
+        .order-header {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .order-info-card {
+            background-color: rgba(202, 154, 158, 0.05);
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-color);
+        }
+
+        .order-info-card h4 {
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .order-products {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .order-product-card {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            padding: 1rem;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .order-product-card:hover {
+            box-shadow: var(--shadow);
+        }
+
+        .order-product-image {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .product-details {
+            flex: 1;
+        }
+
+        .product-name {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .product-price {
+            color: var(--accent-color);
+            font-weight: 500;
+        }
+
+        .product-quantity {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .order-timeline {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #eee;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            border-radius: 5px;
+        }
+
+        .timeline-item.active {
+            background-color: rgba(40, 167, 69, 0.1);
+        }
+
+        .timeline-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 0.8rem;
+        }
+
+        .timeline-icon.completed {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        .timeline-icon.pending {
+            background-color: #ddd;
+            color: #666;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 2rem;
+            gap: 0.5rem;
+        }
+
+        .pagination button {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            background-color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: var(--transition);
+        }
+
+        .pagination button:hover,
+        .pagination button.active {
+            background-color: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .navbar {
+                padding: 1rem;
+            }
+
+            .nav-links li {
+                margin-left: 1.5rem;
+            }
+
+            .orders-table {
+                display: block;
+                overflow-x: auto;
+            }
+
+            .actions-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-box {
+                max-width: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background-color: var(--white);
+                flex-direction: column;
+                align-items: center;
+                padding: 2rem 0;
+                transition: var(--transition);
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .nav-links li {
+                margin: 1rem 0;
+            }
+
+            .customer-info {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .stats-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .page-title {
+                font-size: 1.5rem;
+            }
+
+            .filters {
+                flex-direction: column;
+            }
+
+            .filter-btn {
+                width: 100%;
+            }
+
+            .stats-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .span {
+            font-size: 20px;
+            font-weight: 500;
+            font-style: italic;
+            color: #5D4037;
+            background: #FFF8E1;
+            display: flex;
+            list-style: none;
+            margin-left: 0.5rem;
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            transition: color 0.3s;
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar identique -->
+    <nav class="navbar">
+        <div class="navbar-logo">
+            <img src="C:\Users\HP\OneDrive\Images\lll.PNG" alt="Hanouti Logo">
+            <span class="span">Hanouti</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="acceuilv.html"><i class="fas fa-home"></i> Accueil</a></li>
+            <li><a href="produitsa.html"><i class="fas fa-store"></i> Produits</a></li>
+            <li>
+                <a href="cmd.html" class="active"><i class="fas fa-shopping-basket"></i> Commandes</a>
+            </li>
+            <li><a href="prfl.html"><i class="fas fa-user"></i> Profil</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <!-- En-tête de page -->
+        <div class="page-header">
+            <h1 class="page-title">Commandes Reçues</h1>
+            <div style="text-align: right; color: #666;">
+                <p>Dernière mise à jour: <span id="lastUpdate">il y a 2 minutes</span></p>
+            </div>
+        </div>
+
+        <!-- Statistiques -->
+        <div class="stats-cards">
+            <div class="stat-card">
+                <h3>12</h3>
+                <p>Commandes aujourd'hui</p>
+            </div>
+            <div class="stat-card">
+                <h3>3</h3>
+                <p>En attente</p>
+            </div>
+            <div class="stat-card">
+                <h3>5</h3>
+                <p>Prêtes</p>
+            </div>
+            <div class="stat-card">
+                <h3>1,245 DH</h3>
+                <p>Revenus du jour</p>
+            </div>
+        </div>
+
+        <!-- Barre d'actions -->
+        <div class="actions-bar">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Rechercher par nom client, numéro de commande..." id="searchInput">
+            </div>
+            <button class="export-btn" onclick="exportOrders()">
+                <i class="fas fa-download"></i>
+                Exporter CSV
+            </button>
+        </div>
+
+        <!-- Filtres -->
+        <div class="filters">
+            <button class="filter-btn active" data-filter="all">Toutes <span class="filter-count">12</span></button>
+            <button class="filter-btn" data-filter="pending">En attente <span class="filter-count">3</span></button>
+            <button class="filter-btn" data-filter="ready">Prêtes <span class="filter-count">5</span></button>
+            <button class="filter-btn" data-filter="delivered">Livrées <span class="filter-count">3</span></button>
+            <button class="filter-btn" data-filter="cancelled">Annulées <span class="filter-count">1</span></button>
+        </div>
+
+        <!-- Tableau des commandes -->
+        <table class="orders-table">
+            <thead>
+                <tr>
+                    <th>N° Commande</th>
+                    <th>Client</th>
+                    <th>Articles</th>
+                    <th>Date/Heure</th>
+                    <th>Montant</th>
+                    <th>Statut</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="ordersTableBody">
+                <!-- Commande Urgente -->
+                <tr class="priority-urgent" data-status="pending">
+                    <td>
+                        #HNT-7890
+                        <span class="urgent-badge">URGENT</span>
+                    </td>
+                    <td>
+                        <div class="customer-info">
+                            <div class="customer-avatar">KB</div>
+                            <div class="customer-details">
+                                <div class="customer-name">Karim Benani</div>
+                                <div class="customer-phone">+212 6XX XXX XXX</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="order-items">
+                            <div class="order-items-preview">Dattes Medjool, Thé menthe</div>
+                            <div class="items-count">3 articles</div>
+                        </div>
+                    </td>
+                    <td>
+                        <div>Aujourd'hui</div>
+                        <div style="font-size: 0.9rem; color: #666;">10:45</div>
+                    </td>
+                    <td><strong>179 DH</strong></td>
+                    <td><span class="status status-pending">En attente</span></td>
+                    <td>
+                        <button class="action-btn ready-btn" onclick="markAsReady(this)">
+                            <i class="fas fa-check"></i> Prête
+                        </button>
+                        <button class="action-btn view-btn" onclick="showOrderDetails('HNT-7890')">
+                            <i class="fas fa-eye"></i> Détails
+                        </button>
+                        <button class="action-btn contact-btn" onclick="contactCustomer('+212 6XX XXX XXX')">
+                            <i class="fab fa-whatsapp"></i>
+                        </button>
+                    </td>
+                </tr>
+
+                <!-- Commande 2 -->
+                <tr data-status="ready">
+                    <td>#HNT-7889</td>
+                    <td>
+                        <div class="customer-info">
+                            <div class="customer-avatar">FZ</div>
+                            <div class="customer-details">
+                                <div class="customer-name">Fatima Zahra</div>
+                                <div class="customer-phone">+212 6XX XXX XXY</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="order-items">
+                            <div class="order-items-preview">Miel artisanal, Huile d'olive</div>
+                            <div class="items-count">2 articles</div>
+                        </div>
+                    </td>
+                    <td>
+                        <div>Hier</div>
+                        <div style="font-size: 0.9rem; color: #666;">16:30</div>
+                    </td>
+                    <td><strong>85 DH</strong></td>
+                    <td><span class="status status-ready">Prête</span></td>
+                    <td>
+                        <button class="action-btn view-btn" onclick="showOrderDetails('HNT-7889')">
+                            <i class="fas fa-eye"></i> Détails
+                        </button>
+                        <button class="action-btn contact-btn" onclick="contactCustomer('+212 6XX XXX XXY')">
+                            <i class="fab fa-whatsapp"></i>
+                        </button>
+                    </td>
+                </tr>
+
+                <!-- Commande 3 -->
+                <tr data-status="delivered">
+                    <td>#HNT-7885</td>
+                    <td>
+                        <div class="customer-info">
+                            <div class="customer-avatar">AM</div>
+                            <div class="customer-details">
+                                <div class="customer-name">Ahmed Mourad</div>
+                                <div class="customer-phone">+212 6XX XXX XXZ</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="order-items">
+                            <div class="order-items-preview">Épices berbères, Couscous</div>
+                            <div class="items-count">4 articles</div>
+                        </div>
+                    </td>
+                    <td>
+                        <div>Hier</div>
+                        <div style="font-size: 0.9rem; color: #666;">09:15</div>
+                    </td>
+                    <td><strong>150 DH</strong></td>
+                    <td><span class="status status-delivered">Livrée</span></td>
+                    <td>
+                        <button class="action-btn view-btn" onclick="showOrderDetails('HNT-7885')">
+                            <i class="fas fa-eye"></i> Détails
+                        </button>
+                    </td>
+                </tr>
+
+                <!-- Commande 4 -->
+                <tr data-status="cancelled">
+                    <td>#HNT-7881</td>
+                    <td>
+                        <div class="customer-info">
+                            <div class="customer-avatar">LK</div>
+                            <div class="customer-details">
+                                <div class="customer-name">Leila Kaddouri</div>
+                                <div class="customer-phone">+212 6XX XXX XXA</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="order-items">
+                            <div class="order-items-preview">Confiture figues</div>
+                            <div class="items-count">1 article</div>
+                        </div>
+                    </td>
+                    <td>
+                        <div>12/05/2023</div>
+                        <div style="font-size: 0.9rem; color: #666;">14:22</div>
+                    </td>
+                    <td><strong>65 DH</strong></td>
+                    <td><span class="status status-cancelled">Annulée</span></td>
+                    <td>
+                        <button class="action-btn view-btn" onclick="showOrderDetails('HNT-7881')">
+                            <i class="fas fa-eye"></i> Détails
+                        </button>
+                    </td>
+                </tr>
+
+                <!-- Commandes supplémentaires -->
+                <tr data-status="pending">
+                    <td>#HNT-7888</td>
+                    <td>
+                        <div class="customer-info">
+                            <div class="customer-avatar">SB</div>
+                            <div class="customer-details">
+                                <div class="customer-name">Sara Benhaddou</div>
+                                <div class="customer-phone">+212 6XX XXX XXB</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="order-items">
+                            <div class="order-items-preview">Tajine aux légumes</div>
+                            <div class="items-count">1 article</div>
+                        </div>
+                    </td>
+                    <td>
+                        <div>Aujourd'hui</div>
+                        <div style="font-size: 0.9rem; color: #666;">08:30</div>
+                    </td>
+                    <td><strong>95 DH</strong></td>
+                    <td><span class="status status-pending">En attente</span></td>
+                    <td>
+                        <button class="action-btn ready-btn" onclick="markAsReady(this)">
+                            <i class="fas fa-check"></i> Prête
+                        </button>
+                        <button class="action-btn view-btn" onclick="showOrderDetails('HNT-7888')">
+                            <i class="fas fa-eye"></i> Détails
+                        </button>
+                        <button class="action-btn contact-btn" onclick="contactCustomer('+212 6XX XXX XXB')">
+                            <i class="fab fa-whatsapp"></i>
+                        </button>
+                    </td>
+                </tr>
+
+                <tr data-status="ready">
+                    <td>#HNT-7887</td>
+                    <td>
+                        <div class="customer-info">
+                            <div class="customer-avatar">YM</div>
+                            <div class="customer-details">
+                                <div class="customer-name">Youssef Mernissi</div>
+                                <div class="customer-phone">+212 6XX XXX XXC</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="order-items">
+                            <div class="order-items-preview">Pastilla au poulet, Msemen</div>
+                            <div class="items-count">5 articles</div>
+                        </div>
+                    </td>
+                    <td>
+                        <div>Aujourd'hui</div>
+                        <div style="font-size: 0.9rem; color: #666;">07:15</div>
+                    </td>
+                    <td><strong>220 DH</strong></td>
+                    <td><span class="status status-ready">Prête</span></td>
+                    <td>
+                        <button class="action-btn view-btn" onclick="showOrderDetails('HNT-7887')">
+                            <i class="fas fa-eye"></i> Détails
+                        </button>
+                        <button class="action-btn contact-btn" onclick="contactCustomer('+212 6XX XXX XXC')">
+                            <i class="fab fa-whatsapp"></i>
+                        </button>
+                    </td>
+                </tr>
+
+                <tr data-status="delivered">
+                    <td>#HNT-7884</td>
+                    <td>
+                        <div class="customer-info">
+                            <div class="customer-avatar">NE</div>
+                            <div class="customer-details">
+                                <div class="customer-name">Nadia El Fassi</div>
+                                <div class="customer-phone">+212 6XX XXX XXD</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="order-items">
+                            <div class="order-items-preview">Thé à la menthe, Pâtisseries</div>
+                            <div class="items-count">6 articles</div>
+                        </div>
+                    </td>
+                    <td>
+                        <div>28/05/2025</div>
+                        <div style="font-size: 0.9rem; color: #666;">19:45</div>
+                    </td>
+                    <td><strong>135 DH</strong></td>
+                    <td><span class="status status-delivered">Livrée</span></td>
+                    <td>
+                        <button class="action-btn view-btn" onclick="showOrderDetails('HNT-7884')">
+                            <i class="fas fa-eye"></i> Détails
+                        </button>
+                    </td>
+                </tr>
+
+                <tr data-status="pending">
+                    <td>#HNT-7883</td>
+                    <td>
+                        <div class="customer-info">
+                            <div class="customer-avatar">RA</div>
+                            <div class="customer-details">
+                                <div class="customer-name">Rachid Alami</div>
+                                <div class="customer-phone">+212 6XX XXX XXE</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="order-items">
+                            <div class="order-items-preview">Tagine agneau, Pain khbiza</div>
+                            <div class="items-count">3 articles</div>
+                        </div>
+                    </td>
+                    <td>
+                        <div>28/05/2025</div>
+                        <div style="font-size: 0.9rem; color: #666;">18:20</div>
+                    </td>
+                    <td><strong>180 DH</strong></td>
+                    <td><span class="status status-pending">En attente</span></td>
+                    <td>
+                        <button class="action-btn ready-btn" onclick="markAsReady(this)">
+                            <i class="fas fa-check"></i> Prête
+                        </button>
+                        <button class="action-btn view-btn" onclick="showOrderDetails('HNT-7883')">
+                            <i class="fas fa-eye"></i> Détails
+                        </button>
+                        <button class="action-btn contact-btn" onclick="contactCustomer('+212 6XX XXX XXE')">
+                            <i class="fab fa-whatsapp"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <button>&laquo; Précédent</button>
+            <button class="active">1</button>
+            <button>2</button>
+            <button>3</button>
+            <button>Suivant &raquo;</button>
+        </div>
+
+        <!-- Détails de commande (exemple caché par défaut) -->
+        <div class="order-details" id="orderDetails" style="display: none;">
+            <button class="close-details" onclick="hideOrderDetails()">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <div class="order-header">
+                <div class="order-info-card">
+                    <h4><i class="fas fa-receipt"></i> Commande</h4>
+                    <p><strong>Numéro:</strong> #HNT-7890</p>
+                    <p><strong>Date:</strong> 29 Mai 2025, 10:45</p>
+                    <p><strong>Statut:</strong> <span class="status status-pending">En attente</span></p>
+                </div>
+
+                <div class="order-info-card">
+                    <h4><i class="fas fa-user"></i> Client</h4>
+                    <p><strong>Nom:</strong> Karim Benani</p>
+                    <p><strong>Téléphone:</strong> +212 6XX XXX XXX</p>
+                    <p><strong>Email:</strong> karim.benani@email.com</p>
+                </div>
+
+                <div class="order-info-card">
+                    <h4><i class="fas fa-map-marker-alt"></i> Livraison</h4>
+                    <p><strong>Adresse:</strong> 123 Rue des Oliviers</p>
+                    <p><strong>Ville:</strong> Casablanca</p>
+                    <p><strong>Instructions:</strong> Sonner 2 fois</p>
+                </div>
+
+                <div class="order-info-card">
+                    <h4><i class="fas fa-credit-card"></i> Paiement</h4>
+                    <p><strong>Méthode:</strong> Espèces</p>
+                    <p><strong>Montant:</strong> 179 DH</p>
+                    <p><strong>Statut:</strong> <span style="color: var(--warning-color);">En attente</span></p>
+                </div>
+            </div>
+
+            <h4 style="margin-top: 2rem; margin-bottom: 1rem;"><i class="fas fa-shopping-cart"></i> Produits commandés
+            </h4>
+            <div class="order-products">
+                <div class="order-product-card">
+                    <img src="https://www.freshplaza.fr/remote/https/agfstorage.blob.core.windows.net/misc/FP_fr/2023/03/30/medjoolstar1.jpg?preset=ContentFullSmalll"
+                        class="order-product-image">
+                    <div class="product-details">
+                        <div class="product-name">Dattes Medjool Premium</div>
+                        <div class="product-quantity">Quantité: 1 kg</div>
+                        <div class="product-price">89 DH</div>
+                    </div>
+                </div>
+                <div class="order-product-card">
+                    <img src="https://www.drivezeclerc.re/21982-thickbox_default/lipton-the-vert-menthe-intense-20-sachets.jpg"
+                        class="order-product-image">
+                    <div class="product-details">
+                        <div class="product-name">Thé à la Menthe Bio</div>
+                        <div class="product-quantity">Quantité: 2 boîtes</div>
+                        <div class="product-price">45 DH × 2 = 90 DH</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="order-timeline">
+                <h4 style="margin-bottom: 1rem;"><i class="fas fa-clock"></i> Suivi de commande</h4>
+
+                <div class="timeline-item active">
+                    <div class="timeline-icon completed">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <div>
+                        <strong>Commande reçue</strong><br>
+                        <small>29 Mai 2025, 10:45 - Commande confirmée et prise en compte</small>
+                    </div>
+                </div>
+
+                <div class="timeline-item active">
+                    <div class="timeline-icon completed">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <div>
+                        <strong>Préparation en cours</strong><br>
+                        <small>29 Mai 2025, 10:50 - Préparation des articles commandés</small>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-icon pending">
+                        <i class="fas fa-box"></i>
+                    </div>
+                    <div>
+                        <strong>Prête pour retrait/livraison</strong><br>
+                        <small>En attente</small>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-icon pending">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <div>
+                        <strong>Livrée</strong><br>
+                        <small>En attente</small>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 2rem; padding-top: 1rem; border-top: 2px solid #eee; text-align: right;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                    <span>Sous-total:</span>
+                    <span>179 DH</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                    <span>Frais de livraison:</span>
+                    <span>Gratuit</span>
+                </div>
+                <div
+                    style="display: flex; justify-content: space-between; font-size: 1.2rem; font-weight: bold; color: var(--accent-color);">
+                    <span>Total:</span>
+                    <span>179 DH</span>
+                </div>
+            </div>
+
+            <div style="margin-top: 2rem; text-align: center; display: flex; gap: 1rem; justify-content: center;">
+                <button class="action-btn ready-btn" onclick="markAsReady(this)" style="padding: 0.75rem 2rem;">
+                    <i class="fas fa-check"></i> Marquer comme prête
+                </button>
+                <button class="action-btn contact-btn" onclick="contactCustomer('+212 6XX XXX XXX')"
+                    style="padding: 0.75rem 2rem;">
+                    <i class="fab fa-whatsapp"></i> Contacter client
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Menu mobile
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+
+        if (hamburger) {
+            hamburger.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                hamburger.innerHTML = navLinks.classList.contains('active')
+                    ? '<i class="fas fa-times"></i>'
+                    : '<i class="fas fa-bars"></i>';
+            });
+        }
+
+        // Mise à jour automatique du temps
+        function updateLastUpdateTime() {
+            const now = new Date();
+            const lastUpdateElement = document.getElementById('lastUpdate');
+            const minutes = Math.floor(Math.random() * 5) + 1;
+            lastUpdateElement.textContent = `il y a ${minutes} minute${minutes > 1 ? 's' : ''}`;
+        }
+
+        setInterval(updateLastUpdateTime, 60000); // Mise à jour chaque minute
+
+        // Recherche en temps réel
+        const searchInput = document.getElementById('searchInput');
+        const tableBody = document.getElementById('ordersTableBody');
+        const allRows = Array.from(tableBody.querySelectorAll('tr'));
+
+        searchInput.addEventListener('input', function () {
+            const searchTerm = this.value.toLowerCase();
+
+            allRows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+
+        // Gestion des filtres
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', function () {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+
+                const filter = this.getAttribute('data-filter');
+                const rows = document.querySelectorAll('#ordersTableBody tr');
+
+                rows.forEach(row => {
+                    if (filter === 'all') {
+                        row.style.display = '';
+                    } else {
+                        const status = row.getAttribute('data-status');
+                        if (status === filter) {
+                            row.style.display = '';
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    }
+                });
+            });
+        });
+
+        // Marquer comme prête
+        function markAsReady(button) {
+            const row = button.closest('tr');
+            const statusCell = row.querySelector('.status');
+            const actionsCell = row.querySelector('td:last-child');
+
+            // Mise à jour du statut
+            statusCell.textContent = 'Prête';
+            statusCell.className = 'status status-ready';
+            row.setAttribute('data-status', 'ready');
+
+            // Suppression du bouton "Prête" et de l'indicateur urgent
+            button.remove();
+            row.classList.remove('priority-urgent');
+            const urgentBadge = row.querySelector('.urgent-badge');
+            if (urgentBadge) urgentBadge.remove();
+
+            // Notification
+            showNotification('Commande marquée comme prête!', 'success');
+
+            // Mise à jour des compteurs
+            updateFilterCounts();
+        }
+
+        // Afficher les détails de commande
+        function showOrderDetails(orderId) {
+            const orderDetails = document.getElementById('orderDetails');
+            orderDetails.style.display = 'block';
+
+            // Mise à jour du numéro de commande dans les détails
+            orderDetails.querySelector('.order-info-card p').innerHTML = `<strong>Numéro:</strong> #${orderId}`;
+
+            // Scroll vers les détails
+            setTimeout(() => {
+                orderDetails.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }, 100);
+        }
+
+        // Masquer les détails
+        function hideOrderDetails() {
+            const orderDetails = document.getElementById('orderDetails');
+            orderDetails.style.display = 'none';
+        }
+
+        // Contacter le client via WhatsApp
+        function contactCustomer(phoneNumber) {
+            const message = encodeURIComponent("Bonjour, votre commande Hanouti est prête pour le retrait/livraison!");
+            const whatsappUrl = `https://wa.me/${phoneNumber.replace(/\s+/g, '')}?text=${message}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // Exporter les commandes
+        function exportOrders() {
+            // Simulation d'export CSV
+            const csvContent = "Numéro,Client,Date,Montant,Statut\n" +
+                "HNT-7890,Karim Benani,29/05/2025,179 DH,En attente\n" +
+                "HNT-7889,Fatima Zahra,28/05/2025,85 DH,Prête\n" +
+                "HNT-7885,Ahmed Mourad,28/05/2025,150 DH,Livrée";
+
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `commandes_${new Date().toISOString().split('T')[0]}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+
+            showNotification('Export CSV téléchargé!', 'success');
+        }
+
+        // Mise à jour des compteurs de filtres
+        function updateFilterCounts() {
+            const rows = document.querySelectorAll('#ordersTableBody tr');
+            const counts = {
+                all: rows.length,
+                pending: 0,
+                ready: 0,
+                delivered: 0,
+                cancelled: 0
+            };
+
+            rows.forEach(row => {
+                const status = row.getAttribute('data-status');
+                if (counts[status] !== undefined) {
+                    counts[status]++;
+                }
+            });
+
+            // Mise à jour des badges de compteur
+            filterBtns.forEach(btn => {
+                const filter = btn.getAttribute('data-filter');
+                const countElement = btn.querySelector('.filter-count');
+                if (countElement && counts[filter] !== undefined) {
+                    countElement.textContent = counts[filter];
+                }
+            });
+        }
+
+        // Système de notifications
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 1rem 1.5rem;
+                border-radius: 5px;
+                color: white;
+                font-weight: 500;
+                z-index: 1000;
+                opacity: 0;
+                transform: translateX(100%);
+                transition: all 0.3s ease;
+            `;
+
+            const colors = {
+                success: '#28a745',
+                error: '#dc3545',
+                warning: '#ffc107',
+                info: '#17a2b8'
+            };
+
+            notification.style.backgroundColor = colors[type] || colors.info;
+            notification.textContent = message;
+
+            document.body.appendChild(notification);
+
+            // Animation d'apparition
+            setTimeout(() => {
+                notification.style.opacity = '1';
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+
+            // Suppression automatique
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    if (document.body.contains(notification)) {
+                        document.body.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        // Sons de notification (optionnel)
+        function playNotificationSound() {
+            // Création d'un son simple avec Web Audio API
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+
+            oscillator.frequency.value = 800;
+            oscillator.type = 'sine';
+
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.5);
+        }
+
+        // Simulation de nouvelles commandes
+        function simulateNewOrder() {
+            // Cette fonction pourrait être appelée via WebSocket ou polling
+            const newOrderSound = () => {
+                try {
+                    playNotificationSound();
+                } catch (e) {
+                    console.log('Notification audio non supportée');
+                }
+            };
+
+            // Exemple d'utilisation (décommentez pour tester)
+            // setTimeout(() => {
+            //     showNotification('Nouvelle commande reçue! #HNT-7891', 'success');
+            //     newOrderSound();
+            // }, 5000);
+        }
+
+        // Fermer les détails en cliquant à l'extérieur
+        window.addEventListener('click', function (e) {
+            const orderDetails = document.getElementById('orderDetails');
+            if (e.target === orderDetails) {
+                hideOrderDetails();
+            }
+        });
+
+        // Raccourcis clavier
+        document.addEventListener('keydown', function (e) {
+            // Échap pour fermer les détails
+            if (e.key === 'Escape') {
+                hideOrderDetails();
+            }
+
+            // Ctrl+F pour focus sur la recherche
+            if (e.ctrlKey && e.key === 'f') {
+                e.preventDefault();
+                searchInput.focus();
+            }
+        });
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function () {
+            updateFilterCounts();
+            simulateNewOrder();
+
+            // Auto-refresh des données (simulation)
+            setInterval(() => {
+                updateLastUpdateTime();
+                // Ici vous pourriez faire un appel AJAX pour récupérer les nouvelles commandes
+            }, 30000); // Toutes les 30 secondes
+        });
+    </script>
+</body>
+
+</html>

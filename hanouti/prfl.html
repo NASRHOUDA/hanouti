@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hanouti - Profil Vendeur</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #ca9a9e;
+            --secondary-color: #D2B48C;
+            --accent-color: #F4A460;
+            --light-color: #FFF8E1;
+            --dark-color: #5D4037;
+            --white: #FFFFFF;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+            --info-color: #17a2b8;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+        }
+
+        /* Navbar identique */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            background-color: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar-logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-logo img {
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 2rem;
+            position: relative;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .nav-links a.active {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .nav-links i {
+            margin-right: 0.5rem;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--accent-color);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        .logout-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            margin-left: 1rem;
+        }
+
+        .logout-btn:hover {
+            background-color: #b8868a;
+        }
+
+        .logo-text {
+            font-size: 1.25rem;
+            font-weight: 600;
+            font-style: italic;
+            color: var(--dark-color);
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        /* Contenu principal */
+        .container {
+            padding: 2rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        @media (min-width: 992px) {
+            .container {
+                grid-template-columns: 300px 1fr;
+            }
+        }
+
+        .page-header {
+            grid-column: 1 / -1;
+            margin-bottom: 1rem;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            color: var(--dark-color);
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .page-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 5px;
+            background-color: var(--accent-color);
+            border-radius: 3px;
+        }
+
+        /* Section profil */
+        .profile-section {
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            height: fit-content;
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: var(--light-color);
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--accent-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-name {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+        }
+
+        .profile-role {
+            color: var(--primary-color);
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .profile-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--dark-color);
+            opacity: 0.8;
+        }
+
+        .profile-menu {
+            list-style: none;
+        }
+
+        .profile-menu li {
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-menu a {
+            display: block;
+            padding: 0.75rem 1rem;
+            border-radius: 5px;
+            color: var(--dark-color);
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .profile-menu a:hover,
+        .profile-menu a.active {
+            background-color: rgba(202, 154, 158, 0.1);
+            color: var(--primary-color);
+        }
+
+        .profile-menu i {
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Contenu des onglets */
+        .tab-content {
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .tab-pane {
+            display: none;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            position: relative;
+            padding-left: 1rem;
+        }
+
+        .section-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 5px;
+            bottom: 5px;
+            width: 3px;
+            background-color: var(--accent-color);
+            border-radius: 3px;
+        }
+
+        /* Formulaire */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(244, 164, 96, 0.2);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #e6954a;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #c0a070;
+        }
+
+        /* Support */
+        .support-form textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .support-info {
+            background-color: rgba(202, 154, 158, 0.1);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+        }
+
+        .support-info h4 {
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .contact-method {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background-color: var(--white);
+                flex-direction: column;
+                align-items: center;
+                padding: 2rem 0;
+                transition: var(--transition);
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .nav-links li {
+                margin: 1rem 0;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .page-title {
+                font-size: 1.5rem;
+            }
+
+            .profile-stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        .span {
+            font-size: 20px;
+            font-weight: 500;
+            font-style: italic;
+            color: #5D4037;
+            background: #FFF8E1;
+
+
+
+            display: flex;
+            list-style: none;
+            margin-left: 0.5rem;
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            transition: color 0.3s;
+            margin-right: 0.5rem;
+
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="navbar-logo">
+            <img src="C:\Users\HP\OneDrive\Images\lll.PNG" alt="Hanouti Logo">
+            <span class="span">Hanouti</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="acceuilv.html"><i class="fas fa-home"></i> Accueil</a></li>
+            <li><a href="produitsa.html"><i class="fas fa-store"></i> Produits</a></li>
+            <li>
+                <a href="cmd.html"><i class="fas fa-shopping-basket"></i> Commandes</a>
+
+            </li>
+            <li><a href="prfl.html"><i class="fas fa-user"></i> Profil</a></li>
+        </ul>
+
+
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1 class="page-title">Mon Profil</h1>
+        </div>
+
+        <!-- Menu profil -->
+        <div class="profile-section">
+            <div class="profile-header">
+                <div class="profile-avatar">
+                    <span>MB</span>
+                </div>
+                <h2 class="profile-name">Mohamed Berrada</h2>
+                <div class="profile-role">Vendeur Hanouti</div>
+            </div>
+
+            <div class="profile-stats">
+                <div class="stat-item">
+                    <div class="stat-value">42</div>
+                    <div class="stat-label">Produits</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">4.8</div>
+                    <div class="stat-label">Note</div>
+                </div>
+            </div>
+
+            <ul class="profile-menu">
+                <li><a href="#infos" class="active" id="infosTab"><i class="fas fa-user-circle"></i> Informations
+                        personnelles</a></li>
+                <li><a href="#support" id="supportTab"><i class="fas fa-headset"></i> Support technique</a></li>
+                <li><a href="#security" id="securityTab"><i class="fas fa-shield-alt"></i> Sécurité</a></li>
+            </ul>
+        </div>
+
+        <!-- Contenu des onglets -->
+        <div class="tab-content">
+            <!-- Onglet Informations -->
+            <div class="tab-pane active" id="infosContent">
+                <h3 class="section-title">Informations personnelles</h3>
+
+                <form id="profileForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Prénom</label>
+                            <input type="text" class="form-control" value="Mohamed">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Nom</label>
+                            <input type="text" class="form-control" value="Berrada">
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label class="form-label">Téléphone</label>
+                        <input type="tel" class="form-control" value="+212 6 12 34 56 78">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Adresse du Hanout</label>
+                        <input type="text" class="form-control" value="123 Rue des Orangers, Casablanca">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-control"
+                            rows="4">Artisan spécialisé dans les produits du terroir marocain depuis 2010.</textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Enregistrer les modifications
+                    </button>
+                </form>
+            </div>
+
+            <!-- Onglet Support -->
+            <div class="tab-pane" id="supportContent">
+                <h3 class="section-title">Support technique</h3>
+
+                <form class="support-form" id="supportForm">
+                    <div class="form-group">
+                        <label class="form-label">Sujet</label>
+                        <select class="form-control">
+                            <option>Problème technique</option>
+                            <option>Question sur les paiements</option>
+                            <option>Signalement d'un problème</option>
+                            <option>Autre</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Message</label>
+                        <textarea class="form-control" placeholder="Décrivez votre problème en détail..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> Envoyer la demande
+                    </button>
+                </form>
+
+                <div class="support-info">
+                    <h4>Contactez-nous directement</h4>
+                    <div class="contact-method">
+                        <i class="fas fa-phone-alt" style="color: var(--accent-color);"></i>
+                        <span>+212 5 22 34 56 78 (9h-18h)</span>
+                    </div>
+                    <div class="contact-method">
+                        <i class="fas fa-envelope" style="color: var(--accent-color);"></i>
+                        <span>support@hanouti.ma</span>
+                    </div>
+                    <div class="contact-method">
+                        <i class="fas fa-map-marker-alt" style="color: var(--accent-color);"></i>
+                        <span>123 Avenue Hassan II, Casablanca</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Onglet Sécurité -->
+            <div class="tab-pane" id="securityContent">
+                <h3 class="section-title">Sécurité du compte</h3>
+
+                <div class="form-group">
+                    <label class="form-label">Mot de passe actuel</label>
+                    <input type="password" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Nouveau mot de passe</label>
+                    <input type="password" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Confirmer le nouveau mot de passe</label>
+                    <input type="password" class="form-control">
+                </div>
+
+                <button type="button" class="btn btn-primary">
+                    <i class="fas fa-lock"></i> Changer le mot de passe
+                </button>
+
+                <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #eee;">
+                    <h4 style="margin-bottom: 1rem;">Sessions actives</h4>
+                    <div style="background: #f9f9f9; padding: 1rem; border-radius: 5px; margin-bottom: 1rem;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                            <strong>Chrome sur Windows</strong>
+                            <span style="color: var(--success-color);">Actif</span>
+                        </div>
+                        <div style="font-size: 0.9rem; color: #666;">
+                            <div>Dernière activité: il y a 2 heures</div>
+                            <div>Adresse IP: 105.156.78.90</div>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn-secondary">
+                        <i class="fas fa-sign-out-alt"></i> Déconnecter toutes les autres sessions
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Menu mobile
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            hamburger.innerHTML = navLinks.classList.contains('active')
+                ? '<i class="fas fa-times"></i>'
+                : '<i class="fas fa-bars"></i>';
+        });
+
+        // Gestion des onglets
+        const tabs = {
+            infos: {
+                tab: document.getElementById('infosTab'),
+                content: document.getElementById('infosContent')
+            },
+            support: {
+                tab: document.getElementById('supportTab'),
+                content: document.getElementById('supportContent')
+            },
+            security: {
+                tab: document.getElementById('securityTab'),
+                content: document.getElementById('securityContent')
+            }
+        };
+
+        // Activer un onglet
+        function activateTab(tabName) {
+            // Désactiver tous les onglets
+            Object.values(tabs).forEach(tab => {
+                tab.tab.classList.remove('active');
+                tab.content.classList.remove('active');
+            });
+
+            // Activer l'onglet sélectionné
+            tabs[tabName].tab.classList.add('active');
+            tabs[tabName].content.classList.add('active');
+        }
+
+        // Écouteurs d'événements pour les onglets
+        document.getElementById('infosTab').addEventListener('click', (e) => {
+            e.preventDefault();
+            activateTab('infos');
+        });
+
+        document.getElementById('supportTab').addEventListener('click', (e) => {
+            e.preventDefault();
+            activateTab('support');
+        });
+
+        document.getElementById('securityTab').addEventListener('click', (e) => {
+            e.preventDefault();
+            activateTab('security');
+        });
+
+        // Gestion du formulaire de profil
+        document.getElementById('profileForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Modifications enregistrées avec succès !');
+        });
+
+        // Gestion du formulaire de support
+        document.getElementById('supportForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Votre demande a été envoyée au support technique. Nous vous répondrons dans les plus brefs délais.');
+            e.target.reset();
+        });
+    </script>
+</body>
+
+</html>
